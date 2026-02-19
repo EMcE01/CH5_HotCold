@@ -6,6 +6,7 @@ let tries = 0;
 const history = [];
 const guessInput = document.getElementById("number");
 const messageLabel = document.getElementById("message");
+const guesses = document.getElementById("history");
 
 // helper function
 const getRandomInt = (max = 100) => {
@@ -32,7 +33,7 @@ const guessClick = () => {
             const lastWord = (tries === 1) ? "try" : "tries";
             message = `Fire! You guessed it in ${tries} ${lastWord}!`;
             color = "green";
-            //updateBestScore();
+            updateBestScore();
             break;
         case (distance <= 5):
             message = "Hot! (Within 5)";
@@ -68,6 +69,7 @@ const guessClick = () => {
     messageLabel.style.color = color;
     guessInput.value = "";
     guessInput.focus();
+    history.innerHTML += `Guess ${tries}: ${guess} - ${message}`
 };
 const playAgainClick = () => {
     randomNum = getRandomInt(100);
@@ -77,6 +79,10 @@ const playAgainClick = () => {
     document.querySelector("#message").textContent = "";
     guessInput.focus();
 };
+
+const updateBestScore = () => {
+
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     playAgainClick(); // initial a new game
