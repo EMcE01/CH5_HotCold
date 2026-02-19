@@ -4,6 +4,8 @@
 let randomNum = 0;
 let tries = 0;
 const history = [];
+const guessInput = document.getElementById("number");
+const messageLabel = document.getElementById("message");
 
 // helper function
 const getRandomInt = (max = 100) => {
@@ -16,6 +18,7 @@ const getRandomInt = (max = 100) => {
 const guessClick = () => {
     const guess = parseInt(document.querySelector("#number").value);
     let distance = Math.abs(randomNum - guess);
+    let color = "blue";
 
 
     let message = "";
@@ -28,42 +31,51 @@ const guessClick = () => {
         case (distance === 0):
             const lastWord = (tries === 1) ? "try" : "tries";
             message = `Fire! You guessed it in ${tries} ${lastWord}!`;
-            //color = "green";
+            color = "green";
             //updateBestScore();
             break;
         case (distance <= 5):
             message = "Hot! (Within 5)";
-            //color = red;
+            tries ++;
+            color = "red";
             break;
         case (distance <= 10 && distance >= 5):
-            message = "Hot! (Within 5)";
-            //color = orange;
+            message = "Hot! (Within 10)";
+            color = "orangered";
+            tries ++;
             break;
         case (distance <= 20 && distance >= 10):
-            message = "Hot! (Within 5)";
-            // color = red;
+            message = "Hot! (Within 20)";
+            color = "orange";
+            tries ++;
             break;
         case (distance <= 30 && distance >= 20):
-            message = "Hot! (Within 5)";
-            // color = red;
+            message = "Hot! (Within 30)";
+            color = "lightblue";
+            tries ++;
             break;
         case (distance <= 40 && distance >= 30):
-            message = "Hot! (Within 5)";
-            // color = red;
+            message = "Hot! (Within 40)";
+            color = "blue";
+            tries ++;
             break;
         default:
-            message = "Freezing cold"
+            message = "Freezing cold";
+            color = "darkblue";
+            tries++;
     }
     document.querySelector("#message").textContent = message;
     messageLabel.style.color = color;
-}
+    guessInput.value = "";
+    guessInput.focus();
+};
 const playAgainClick = () => {
-    randomNum = getRandomInt(10);
+    randomNum = getRandomInt(100);
     tries = 0;
     console.log(randomNum);
     document.querySelector("#number").value = "";
     document.querySelector("#message").textContent = "";
-    quessInput.focus();
+    guessInput.focus();
 };
 
 document.addEventListener("DOMContentLoaded", () => {
