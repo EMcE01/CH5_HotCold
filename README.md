@@ -42,6 +42,9 @@ A simple JavaScript number guessing game where the player tries to guess a rando
 
 ---
 
+## ScreenShots
+![working](images/done.png)
+
 ## 🚀 New Skills Learned
 - arrow functions
 - .focus
