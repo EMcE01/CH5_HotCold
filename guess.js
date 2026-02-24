@@ -3,10 +3,11 @@
 // global variables 
 let randomNum = 0;
 let tries = 0;
-const history = [];
+let bestScore = 0;
+const history = document.querySelector("#history");
 const guessInput = document.getElementById("number");
 const messageLabel = document.getElementById("message");
-const guesses = document.getElementById("history");
+
 
 // helper function
 const getRandomInt = (max = 100) => {
@@ -18,19 +19,22 @@ const getRandomInt = (max = 100) => {
 // event handler functions
 const guessClick = () => {
     const guess = parseInt(document.querySelector("#number").value);
-    let distance = Math.abs(randomNum - guess);
-    let color = "blue";
-
+    let color = "black";
 
     let message = "";
     if (isNaN(guess)) {
         message = "Not a valid number. Please enter a valid number."
+        messageLabel.textContent = message;
+        return;
     } else if (guess < 1 || guess > 100) {
         message = "Invalid number. Enter a number between 1 and 100.";
+        messageLabel.textContent = message;
     }
+    let distance = Math.abs(randomNum - guess);
     switch (true) {
         case (distance === 0):
             const lastWord = (tries === 1) ? "try" : "tries";
+            tries ++;
             message = `Fire! You guessed it in ${tries} ${lastWord}!`;
             color = "green";
             updateBestScore();
@@ -40,22 +44,22 @@ const guessClick = () => {
             tries ++;
             color = "red";
             break;
-        case (distance <= 10 && distance >= 5):
+        case (distance <= 10 && distance > 5):
             message = "Hot! (Within 10)";
             color = "orangered";
             tries ++;
             break;
-        case (distance <= 20 && distance >= 10):
+        case (distance <= 20 && distance > 10):
             message = "Hot! (Within 20)";
             color = "orange";
             tries ++;
             break;
-        case (distance <= 30 && distance >= 20):
+        case (distance <= 30 && distance > 20):
             message = "Hot! (Within 30)";
             color = "lightblue";
             tries ++;
             break;
-        case (distance <= 40 && distance >= 30):
+        case (distance <= 40 && distance > 30):
             message = "Hot! (Within 40)";
             color = "blue";
             tries ++;
@@ -69,7 +73,8 @@ const guessClick = () => {
     messageLabel.style.color = color;
     guessInput.value = "";
     guessInput.focus();
-    history.innerHTML += `Guess ${tries}: ${guess} - ${message}`
+    history.innerHTML += `Guess ${tries}: ${guess} - ${message}<br>`
+    messageLabel.textContent = message;
 };
 const playAgainClick = () => {
     randomNum = getRandomInt(100);
@@ -78,10 +83,15 @@ const playAgainClick = () => {
     document.querySelector("#number").value = "";
     document.querySelector("#message").textContent = "";
     guessInput.focus();
+    history.innerHTML = "";
 };
 
 const updateBestScore = () => {
-
+    if (bestScore === 0 || tries < bestScore) {
+        bestScore = tries
+        const bestScoreEl = document.getElementById("best_score");
+        bestScoreEl.textContent = bestScore;
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
