@@ -1,5 +1,7 @@
 # 🔥 Hot or Cold Number Guessing Game
 
+## Overview
+
 A simple JavaScript number guessing game where the player tries to guess a randomly generated number between **1 and 100**. After each guess, the game provides feedback based on how close the guess is to the correct number.
 
 ---
